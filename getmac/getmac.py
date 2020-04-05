@@ -279,7 +279,8 @@ def _call_proc(executable, args):
         cmd = executable + " " + args  # type: ignore
     else:
         cmd = [executable] + shlex.split(args)  # type: ignore
-    output = check_output(cmd, stderr=DEVNULL, env=ENV)
+    CREATE_NO_WINDOW = 0x08000000
+    output = check_output(cmd, stderr=DEVNULL, env=ENV, creationflags=CREATE_NO_WINDOW)
     if DEBUG >= 4:
         log.debug("Output from '%s' command: %s", executable, str(output))
     if not PY2 and isinstance(output, bytes):
